@@ -1,4 +1,4 @@
-# Coode for Text Augmented  IDEAL
+# Code for Text Augmented  IDEAL
 
 ## Requirements
 
@@ -49,6 +49,11 @@ To train and test the IDEAL model in jupyter notebook, use:
 
 ```
 %run run_IDEAL.py --dataset ND0 --noises 1 --noise_type IT --model_name Conv4 --train_n_way 5 --test_n_way 5 --n_shot 5 --device cuda:0 --meta_algorithm IDEAL --attention_method bilstm --eta 0.1 --gamma 0.1
+```
+For Error Analysis of a dataset in jupyter notebook, use:
+
+```
+%run error_analysis.py --dataset ND0 --split allc --model_name Conv4 --attention_method bilstm --noise_type IT --noises 1 --n_shot 5 --test_n_way 5 --n_query 15 --num_episodes 100 --num_wrong 5 --num_correct 5 --device cuda:0 --output_dir error_analysis_ND0
 ```
 
 ## Acknowledgment
