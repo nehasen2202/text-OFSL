@@ -12,7 +12,7 @@
 ### ND0
 
 - Add the dataset to directory `./filelists/ND0`
-- Download [ND0](https://drive.google.com/file/d/1IiwWtydp8EpNAFZzoPmjT3GBcYuThjvy/view)
+- Download [ND0](https://drive.google.com/file/d/1IiwWtydp8EpNAFZzoPmjT3GBcYuThjvy/view?usp=sharing)
 - Generate captions for the dataset by executing `caption_generation.ipynb`
 - run `%run make.py` and `%run make_all.py` in the jupyter notebook
 
