@@ -15,8 +15,8 @@ import torch.multiprocessing
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dataset', type=str, default='cifar',
-                    choices=['cifar', 'fc100', 'miniImagenet', 'tieredImagenet'])
+parser.add_argument('--dataset', type=str, default='ND0',
+                    choices=['ND0', 'ND1', 'ND2', 'ND3'])
 parser.add_argument('--noises', type=int, default=1,
                     help='number of noise samples')
 parser.add_argument('--noise_type', type=str, default='IT',
@@ -172,10 +172,10 @@ if __name__ == '__main__':
     elif noise_type == 'OOD':
         datamgr = SetDataManager(image_size, n_eposide=test_iter_num, n_query=15, n_way=test_n_way,
                                  n_support=n_shot, num_workers=num_workers)
-        if dataset in ['cifar', 'fc100', 'CUB']:
-            outlier_file = get_novel_file(dataset='miniImagenet', split='novel')
-        elif dataset in ['miniImagenet', 'tieredImagenet']:
-            outlier_file = get_novel_file(dataset='cifar', split='novel')
+        if dataset in ['ND0', 'ND1',]:
+            outlier_file = get_novel_file(dataset='ND2', split='novel')
+        elif dataset in ['ND2', 'ND3']:
+            outlier_file = get_novel_file(dataset='ND0', split='novel')
         else:
             raise ValueError('Wrong dataset name!')
     else:
