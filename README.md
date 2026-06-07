@@ -1,4 +1,4 @@
-# text-OFSL
+# Coode for Text Augmented  IDEAL
 
 ## Requirements
 
