@@ -45,7 +45,7 @@ To pre-train the contrastive network in jupyter notebook, use:
 %run run_IDEAL_pre_train.py --dataset ND0 --model_name Conv4 --train_n_way 5 --test_n_way 5 --n_shot 5 --device cuda:0
 ```
 
-To train and test the IDEAL model in jupyter notebook, use:
+To train and test the Text Augmented IDEAL model in jupyter notebook, use:
 
 ```
 %run run_IDEAL.py --dataset ND0 --noises 1 --noise_type IT --model_name Conv4 --train_n_way 5 --test_n_way 5 --n_shot 5 --device cuda:0 --meta_algorithm IDEAL --attention_method bilstm --eta 0.1 --gamma 0.1
