@@ -6,7 +6,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str, default='cifar',
-                    choices=['cifar', 'fc100', 'miniImagenet', 'tieredImagenet'])
+                    choices=['ND0', 'ND1', 'ND2','ND3'])
 parser.add_argument('--model_name', type=str, default='Conv4',
                     choices=['Conv4', 'ResNet12'])
 parser.add_argument('--train_n_way', type=int, default=5)
