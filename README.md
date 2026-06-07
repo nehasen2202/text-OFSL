@@ -13,51 +13,51 @@
 
 - Add the dataset to directory `./filelists/ND0`
 - Download [ND0](https://drive.google.com/file/d/1IiwWtydp8EpNAFZzoPmjT3GBcYuThjvy/view?usp=sharing)
-- Generate captions for the dataset by executing `caption_generation.ipynb`
-- run `%run make.py` and `%run make_all.py` in the jupyter notebook
+- Generate captions for the dataset by executing cells in `caption_generation.ipynb`
+- run `%run make.py` and `%run make_all.py` in jupyter notebook
 
-### FC100
+### ND1
 
 - Add the dataset to directory `./filelists/ND1`
-- Download [ND1](https://drive.google.com/file/d/1-sjK2X-nJch4gPgYkmqBfHGmBBvf-MaD/view)
-- run `python make.py` in the terminal
+- Download [ND1](https://drive.google.com/file/d/1-sjK2X-nJch4gPgYkmqBfHGmBBvf-MaD/view?usp=sharing)
+- Generate captions for the dataset by executing cells in `caption_generation.ipynb`
+- run `%run make.py` and `%run make_all.py` in jupyter notebook
 
-### miniImagenet
+### ND2
 
-- Change directory to `./filelists/miniImagenet`
-- Download [miniImagenet](https://drive.google.com/file/d/1hQqDL16HTWv9Jz15SwYh3qq1E4F72UDC/view)
-- run `python make.py` in the terminal
+- Add the dataset to directory `./filelists/ND2`
+- Download [ND2](https://drive.google.com/file/d/1mpCKFpaxGoZtDVfqTXDpuYyvUyzcknhz/view?usp=sharing)
+- Generate captions for the dataset by executing cells in `caption_generation.ipynb`
+- run `%run make.py` injupyter notebook
 
-### tieredImagenet
+### ND3
 
-- Change directory to `./filelists/tieredImagenet`
-- Download [tieredImagenet](https://drive.google.com/file/d/1ir7coqTzg_titf3nrH1brahG2PhuCnpJ/view)
-- run `python make.py` in the terminal
+- Add the dataset to directory `./filelists/ND3`
+- Download [ND3](https://drive.google.com/file/d/1FLEokjZvmR8cZCdhG5pXgtmj-moo4mx8/view?usp=sharing)
+- Generate captions for the dataset by executing cells in `caption_generation.ipynb`
+- run `%run make.py` and `%run make_all.py` in jupyter notebook
 
 ## Running the scripts
 
-To pre-train the contrastive network in the terminal, use:
+To pre-train the contrastive network in jupyter notebook, use:
 
-```bash
-$ python run_IDEAL_pre_train.py --dataset cifar --model_name Conv4 --train_n_way 5 --test_n_way 5 --n_shot 5 --device cuda:0
+```
+%run run_IDEAL_pre_train.py --dataset ND0 --model_name Conv4 --train_n_way 5 --test_n_way 5 --n_shot 5 --device cuda:0
 ```
 
-To train and test the IDEAL model in the terminal, use:
+To train and test the IDEAL model in jupyter notebook, use:
 
-```bash
-$ python run_IDEAL.py --dataset cifar --noises 1 --noise_type IT --model_name Conv4 --train_n_way 5 --test_n_way 5 --n_shot 5 --device cuda:0 --meta_algorithm IDEAL --attention_method bilstm --eta 0.1 --gamma 0.1
+```
+%run run_IDEAL.py --dataset ND0 --noises 1 --noise_type IT --model_name Conv4 --train_n_way 5 --test_n_way 5 --n_shot 5 --device cuda:0 --meta_algorithm IDEAL --attention_method bilstm --eta 0.1 --gamma 0.1
 ```
 
 ## Acknowledgment
 
-Our project references the codes and datasets in the following repo and papers.
+Our project references the codes in the following repo and paper.
 
-[CloserLookFewShot](https://github.com/wyharveychen/CloserLookFewShot)
+[IDEAL](https://github.com/anyuexuan/IDEAL/blob/main/README.md?plain=1)
 
-Luca Bertinetto, João F. Henriques, Philip H. S. Torr, Andrea Vedaldi. Meta-learning with differentiable closed-form solvers. ICLR 2019.
-
-Boris N. Oreshkin, Pau Rodríguez López, Alexandre Lacoste. TADAM: Task dependent adaptive metric for improved few-shot learning. NeurIPS 2018: 719-729.
-
-Oriol Vinyals, Charles Blundell, Tim Lillicrap, Koray Kavukcuoglu, Daan Wierstra. Matching Networks for One Shot Learning. NIPS 2016: 3630-3638.
+An Y, Xue H, Zhao X, Wang J. From instance to metric calibration: A unified framework for open-world few-shot learning. 
+IEEE Transactions on Pattern Analysis and Machine Intelligence. 2023 Feb 10
 
 Mengye Ren, Eleni Triantafillou, Sachin Ravi, Jake Snell, Kevin Swersky, Joshua B. Tenenbaum, Hugo Larochelle, Richard S. Zemel. Meta-Learning for Semi-Supervised Few-Shot Classification. ICLR 2018.
