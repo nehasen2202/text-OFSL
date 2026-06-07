@@ -60,4 +60,3 @@ Our project references the codes in the following repo and paper.
 An Y, Xue H, Zhao X, Wang J. From instance to metric calibration: A unified framework for open-world few-shot learning. 
 IEEE Transactions on Pattern Analysis and Machine Intelligence. 2023 Feb 10
 
-Mengye Ren, Eleni Triantafillou, Sachin Ravi, Jake Snell, Kevin Swersky, Joshua B. Tenenbaum, Hugo Larochelle, Richard S. Zemel. Meta-Learning for Semi-Supervised Few-Shot Classification. ICLR 2018.
