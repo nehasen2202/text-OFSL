@@ -87,12 +87,59 @@ def load_meta(json_file):
     image_labels = meta["image_labels"]
     image_data = meta.get("image_data", [""] * len(image_names))
 
+    # Build original-label -> readable-class-name mapping.
+    # Supported JSON fields:
+    #   "class_names", "label_names", or "classes"
+    # The field may be either a dictionary or a list.
+    class_names = (
+        meta.get("class_names")
+        or meta.get("label_names")
+        or meta.get("classes")
+    )
+
+    class_name_map = {}
+    unique_labels = list(dict.fromkeys(image_labels))
+
+    if isinstance(class_names, dict):
+        for label, name in class_names.items():
+            class_name_map[str(label)] = str(name)
+
+    elif isinstance(class_names, list):
+        # One class name per unique label, in first-occurrence order.
+        if len(class_names) == len(unique_labels):
+            for label, name in zip(unique_labels, class_names):
+                class_name_map[str(label)] = str(name)
+
+        # Class names indexed directly by integer label.
+        elif all(
+            isinstance(label, (int, np.integer))
+            and 0 <= int(label) < len(class_names)
+            for label in unique_labels
+        ):
+            for label in unique_labels:
+                class_name_map[str(label)] = str(class_names[int(label)])
+
+        # One class name supplied for every image.
+        elif len(class_names) == len(image_labels):
+            for label, name in zip(image_labels, class_names):
+                class_name_map[str(label)] = str(name)
+
     by_class = defaultdict(list)
 
     for path, label, caption in zip(image_names, image_labels, image_data):
+        label_key = str(label)
+
+        # Fallback: use the image's parent-folder name.
+        parent_folder = os.path.basename(os.path.dirname(path))
+        class_name = class_name_map.get(
+            label_key,
+            parent_folder if parent_folder else label_key
+        )
+
         by_class[label].append({
             "path": path,
             "label": label,
+            "class_name": class_name,
             "caption": caption
         })
 
@@ -134,6 +181,7 @@ def make_episode(by_class, n_way, n_support, n_query, transform, device):
                 "path": s["path"],
                 "caption": s["caption"],
                 "true_original_label": s["label"],
+                "true_class_name": s["class_name"],
                 "episode_true_label": epi_label
             })
 
@@ -263,27 +311,44 @@ def collect_cases(model, by_class, args, image_size):
             true_epi = int(y_query[i])
             conf = float(confs[i].cpu().item())
 
+            true_class_value = classes[true_epi]
+            pred_class_value = classes[pred_epi]
+
+            # All samples belonging to an episodic class share the same
+            # original label and readable class name.
+            true_class_name = meta_episode[true_epi][0]["true_class_name"]
+            pred_class_name = meta_episode[pred_epi][0]["true_class_name"]
+
             case = {
                 "image_tensor": query_imgs[i],
                 "image_path": query_metas[i]["path"],
                 "caption": query_metas[i]["caption"],
+
+                # Temporary labels used only inside the current episode.
                 "true_episode_label": true_epi,
                 "pred_episode_label": pred_epi,
-                "true_class": str(classes[true_epi]),
-                "pred_class": str(classes[pred_epi]),
+
+                # Original dataset class values.
+                "true_class_value": true_class_value,
+                "pred_class_value": pred_class_value,
+
+                # Human-readable class names.
+                "true_class_name": true_class_name,
+                "pred_class_name": pred_class_name,
+
                 "confidence": conf,
                 "correct": pred_epi == true_epi
             }
 
             # Collect diverse cases: maximum one correct and one wrong per true class
-            true_class_name = case["true_class"]
+            true_class_name = case["true_class_name"]
 
             already_correct_classes = {
-                c["true_class"] for c in correct_cases
+                c["true_class_name"] for c in correct_cases
             }
 
             already_wrong_classes = {
-                c["true_class"] for c in wrong_cases
+                c["true_class_name"] for c in wrong_cases
             }
 
             if pred_epi == true_epi:
@@ -305,8 +370,8 @@ def collect_cases(model, by_class, args, image_size):
             f"wrong collected: {len(wrong_cases)}"
         )
 
-        print("Correct classes:", [c["true_class"] for c in correct_cases])
-        print("Wrong classes:", [c["true_class"] for c in wrong_cases])
+        print("Correct classes:", [c["true_class_name"] for c in correct_cases])
+        print("Wrong classes:", [c["true_class_name"] for c in wrong_cases])
 
         if len(correct_cases) >= args.num_correct and len(wrong_cases) >= args.num_wrong:
             break
@@ -360,7 +425,10 @@ def plot_cases_paper_ready(correct_cases, wrong_cases, out_path):
 
         title = (
             f"{status}\n"
-            f"True: {c['true_class']} | Predicted: {c['pred_class']}\n"
+            f"True: {c['true_class_name']} "
+            f"(value: {c['true_class_value']})\n"
+            f"Predicted: {c['pred_class_name']} "
+            f"(value: {c['pred_class_value']})\n"
             f"Confidence: {c['confidence']:.2f}\n"
             f"Caption: {caption}"
         )
@@ -392,7 +460,10 @@ def save_individual_cases_bottom_text(correct_cases, wrong_cases, output_dir):
 
         analysis_text = (
             f"Status: {status}\n"
-            f"True Class: {c['true_class']} | Predicted Class: {c['pred_class']}\n"
+            f"True Class: {c['true_class_name']} "
+            f"(value: {c['true_class_value']})\n"
+            f"Predicted Class: {c['pred_class_name']} "
+            f"(value: {c['pred_class_value']})\n"
             f"Confidence Score: {c['confidence']:.4f}\n"
             f"Generated Caption: {caption}"
         )
