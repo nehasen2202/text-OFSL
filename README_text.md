@@ -15,25 +15,25 @@ Copy `data/*.py`, `methods/*.py`, and `run_ideal_text.py` into the corresponding
 Smoke test (1 epoch, zero-noise):
 
 ```bash
-python run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type IT --noises 0 --stop_epoch 1 --text_weight 0.3 --bert_dir ./bert_features
+%run run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type IT --noises 0 --stop_epoch 1 --text_weight 0.3 --bert_dir ./bert_features
 ```
 
 **IMPORTANT:** The smoke test saves an epoch-0 checkpoint under its own directory. For a full 400-epoch run, use `--stop_epoch 400`; because the runner checks only the final epoch checkpoint, this starts a new training run in the same directory. To keep smoke-test artifacts distinct, move or delete the smoke-test checkpoint directory before full training. No existing image-only IDEAL directory is touched.
 
 Full 400 epochs (2-way 5-shot, 100 episodes/epoch, 600 test episodes):
 
-```bash
-python run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type IT --noises 0 --stop_epoch 400 --text_weight 0.3 --bert_dir ./bert_features
-python run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type IT --noises 1 --stop_epoch 400 --text_weight 0.3 --bert_dir ./bert_features
-python run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type IT --noises 2 --stop_epoch 400 --text_weight 0.3 --bert_dir ./bert_features
-python run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type OOT --noises 1 --stop_epoch 400 --text_weight 0.3 --bert_dir ./bert_features
-python run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type OOT --noises 2 --stop_epoch 400 --text_weight 0.3 --bert_dir ./bert_features
+```jupyter notebook
+%run run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type IT --noises 0 --stop_epoch 400 --text_weight 0.7 --bert_dir ./bert_features
+%run run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type IT --noises 1 --stop_epoch 400 --text_weight 0.7 --bert_dir ./bert_features
+%run run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type IT --noises 2 --stop_epoch 400 --text_weight 0.7 --bert_dir ./bert_features
+%run run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type OOT --noises 1 --stop_epoch 400 --text_weight 0.7 --bert_dir ./bert_features
+%run run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type OOT --noises 2 --stop_epoch 400 --text_weight 0.7 --bert_dir ./bert_features
 ```
 
 OOD is **evaluation only** and loads the matching text-augmented OOT checkpoint:
 
 ```bash
-python run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type OOD --noises 1 --stop_epoch 400 --text_weight 0.3 --bert_dir ./bert_features --ood_bert ./bert_features/miniImageNet_BERT_embeddings.pt
+python run_ideal_text.py --dataset ND0 --model_name Conv4 --noise_type OOD --noises 1 --stop_epoch 400 --text_weight 0.7 --bert_dir ./bert_features --ood_bert ./bert_features/miniImageNet_BERT_embeddings.pt
 ```
 
 Change ND0 to ND1/ND2/ND3 and model to ResNet12 as needed. For Jupyter, use `%run run_ideal_text.py ...` with the same arguments.
