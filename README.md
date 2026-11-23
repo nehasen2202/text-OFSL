@@ -13,29 +13,25 @@
 
 - Add the dataset to directory `./filelists/ND0`
 - Download [ND0](https://drive.google.com/file/d/1IiwWtydp8EpNAFZzoPmjT3GBcYuThjvy/view?usp=sharing)
-- Generate captions for the dataset by executing cells in `caption_generation.ipynb`
-- run `%run make.py` and `%run make_all.py` in jupyter notebook
+- run `%run generate_dn_json.py` in jupyter notebook
 
 ### ND1
 
 - Add the dataset to directory `./filelists/ND1`
 - Download [ND1](https://drive.google.com/file/d/1-sjK2X-nJch4gPgYkmqBfHGmBBvf-MaD/view?usp=sharing)
-- Generate captions for the dataset by executing cells in `caption_generation.ipynb`
-- run `%run make.py` and `%run make_all.py` in jupyter notebook
+- run `%run generate_dn_json.py` in jupyter notebook
 
 ### ND2
 
 - Add the dataset to directory `./filelists/ND2`
 - Download [ND2](https://drive.google.com/file/d/1mpCKFpaxGoZtDVfqTXDpuYyvUyzcknhz/view?usp=sharing)
-- Generate captions for the dataset by executing cells in `caption_generation.ipynb`
-- run `%run make.py` injupyter notebook
+- run `%run generate_dn_json.py` in jupyter notebook
 
 ### ND3
 
 - Add the dataset to directory `./filelists/ND3`
 - Download [ND3](https://drive.google.com/file/d/1FLEokjZvmR8cZCdhG5pXgtmj-moo4mx8/view?usp=sharing)
-- Generate captions for the dataset by executing cells in `caption_generation.ipynb`
-- run `%run make.py` and `%run make_all.py` in jupyter notebook
+- run `%run generate_dn_json.py` in jupyter notebook
 
 ## Running the scripts
 
@@ -53,7 +49,7 @@ To train and test the Text Augmented IDEAL model in jupyter notebook, use:
 For Error Analysis of a dataset in jupyter notebook, use:
 
 ```
-%run error_analysis.py --dataset ND0 --split allc --model_name Conv4 --attention_method bilstm --noise_type IT --noises 1 --n_shot 5 --test_n_way 5 --n_query 15 --num_episodes 100 --num_wrong 5 --num_correct 5 --device cuda:0 --output_dir error_analysis_ND0
+%run error_analysis.py --dataset ND0 --split all --model_name Conv4 --attention_method bilstm --noise_type IT --noises 1 --n_shot 5 --test_n_way 5 --n_query 15 --num_episodes 100 --num_wrong 5 --num_correct 5 --device cuda:0 --output_dir error_analysis_ND0
 ```
 
 ## Acknowledgment
